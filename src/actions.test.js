@@ -1,5 +1,5 @@
-import { fetchRoots } from './actions';
-import { getRoots } from './api';
+import { fetchResource, fetchRoots } from './actions';
+import { getRoot, getRoots } from './api';
 import * as constants from './constants';
 
 jest.mock('./api');
@@ -29,4 +29,26 @@ it('failed while fetches roots', async () => {
     expect(mockFn.mock.calls.length).toBe(2);
     expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_ROOTS });
     expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_ROOTS_FAILURE });
+});
+
+it('successful fetches resource', async () => {
+    const returnValue = [{ id: 0 }];
+
+    getRoot.mockResolvedValue(returnValue);
+    await fetchResource('planet')(mockFn);
+
+    expect(mockFn.mock.calls.length).toBe(2);
+    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE });
+    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_SUCCESS });
+});
+
+it('failed while fetches roots', async () => {
+    const returnValue = 'Server error';
+
+    getRoot.mockResolvedValue(Promise.reject(returnValue));
+    await fetchResource('wrong_name')(mockFn);
+
+    expect(mockFn.mock.calls.length).toBe(2);
+    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE });
+    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_FAILURE });
 });
