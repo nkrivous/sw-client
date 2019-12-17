@@ -33,6 +33,7 @@ const Home = () => {
 							<NavItem key={k}>
 								<NavLink
 									className={classnames({ active: tab === k })}
+									data-testid={`nav-${k}`}
 									onClick={() => setTab(k)}
 								>
 									{sentenceCase(k)}
@@ -41,7 +42,9 @@ const Home = () => {
 						))}
 					</Nav>
 
-					<TabContent activeTab={tab}>
+					<TabContent activeTab={tab}
+						data-testid={'tab-content'}
+					>
 						{keys.map(k => (
 							<TabPane
 								key={k}
