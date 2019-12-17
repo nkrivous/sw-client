@@ -3,7 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import createStore from '../store';
-import { getRoots } from '../api';
+import { getRoot, getRoots } from '../api';
 
 jest.mock('../api');
 
@@ -40,6 +40,7 @@ it('does not render tab content on the first render', async () => {
 
 it('displays tab content on the nav click', async () => {
     getRoots.mockResolvedValue({ rocket: '' });
+    getRoot.mockResolvedValue({});
     renderWithRedux(<Home />);
     const tabNode = await screen.findByTestId('nav-rocket');
 

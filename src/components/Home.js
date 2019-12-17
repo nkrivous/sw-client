@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Resource from './Resource';
 
 const Home = () => {
 	const dispatch = useDispatch();
@@ -55,7 +56,9 @@ const Home = () => {
 								key={k}
 								tabId={k}
 							>
-								<code>{'todo: load resource table'}</code>
+								<Resource active={tab === k}
+									name={k}
+								/>
 							</TabPane>
 						))}
 					</TabContent>
