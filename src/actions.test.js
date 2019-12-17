@@ -38,8 +38,8 @@ it('successful fetches resource', async () => {
     await fetchResource('planet')(mockFn);
 
     expect(mockFn.mock.calls.length).toBe(2);
-    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE });
-    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_SUCCESS });
+    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE, resource: 'planet' });
+    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_SUCCESS, resource: 'planet' });
 });
 
 it('failed while fetches roots', async () => {
@@ -49,6 +49,6 @@ it('failed while fetches roots', async () => {
     await fetchResource('wrong_name')(mockFn);
 
     expect(mockFn.mock.calls.length).toBe(2);
-    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE });
-    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_FAILURE });
+    expect(mockFn.mock.calls[0][0]).toStrictEqual({ type: constants.FETCH_RESOURCE, resource: 'wrong_name' });
+    expect(mockFn.mock.calls[1][0]).toStrictEqual({ payload: returnValue, type: constants.FETCH_RESOURCE_FAILURE, resource: 'wrong_name' });
 });

@@ -20,12 +20,12 @@ export const fetchRoots = () => dispatch => {
 };
 
 export const fetchResource = root => dispatch => {
-	dispatch({ type: FETCH_RESOURCE });
+	dispatch({ type: FETCH_RESOURCE, resource: root });
 
 	const request = getRoot(root);
 
 	return request.then(
-		resp => dispatch({ type: FETCH_RESOURCE_SUCCESS, payload: resp }),
-		error => dispatch({ type: FETCH_RESOURCE_FAILURE, payload: error }),
+		resp => dispatch({ type: FETCH_RESOURCE_SUCCESS, payload: resp, resource: root }),
+		error => dispatch({ type: FETCH_RESOURCE_FAILURE, payload: error, resource: root }),
 	);
 };

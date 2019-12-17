@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import rootsReducer from './rootsReducer';
-import resourceReducer from './resourceReducer';
+import resourcesReducer from './resourcesReducer';
 
 export default combineReducers({
 	roots: rootsReducer,
-	resource: resourceReducer,
+	resources: resourcesReducer,
 });
