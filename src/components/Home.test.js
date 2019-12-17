@@ -13,11 +13,12 @@ function renderWithRedux(
     return render(<Provider store={createStore()}>{ui}</Provider>);
 }
 
-it('renders component heading', () => {
+it('renders component heading', async () => {
     getRoots.mockResolvedValue([]);
-    const { getByText } = renderWithRedux(<Home />);
+    renderWithRedux(<Home />);
+    const headingNode = await screen.findByText('My little Star Wars app 👾');
 
-    expect(getByText('My little Star Wars app 👾')).toBeInTheDocument();
+    expect(headingNode).toBeInTheDocument();
 });
 
 it('renders Tabs', async () => {
@@ -47,4 +48,12 @@ it('displays tab content on the nav click', async () => {
     const activeTab = tabContentsNode.getElementsByClassName('active')[0];
 
     expect(activeTab).not.toBeUndefined();
+});
+
+it('shows error if api call was failed', async () => {
+    getRoots.mockResolvedValue(Promise.reject('Error'));
+    renderWithRedux(<Home />);
+    const errorNode = await screen.findByText('Error occurred');
+
+    expect(errorNode).toBeInTheDocument();
 });

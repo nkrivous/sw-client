@@ -20,6 +20,11 @@ const Home = () => {
 		dispatch(fetchRoots());
 	}, [dispatch]);
 
+	if (roots.isLoading)
+		return <div>Loading...</div>;
+	if (roots.error)
+		return <div>Error occurred</div>;
+
 	const keys = Object.keys(roots.payload || {});
 
 	return (
