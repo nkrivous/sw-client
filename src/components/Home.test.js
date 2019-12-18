@@ -1,7 +1,7 @@
 import Home from './Home';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import createStore from '../store';
 import { getRoot, getRoots } from '../api';
 
@@ -12,6 +12,20 @@ function renderWithRedux(
 ) {
     return render(<Provider store={createStore()}>{ui}</Provider>);
 }
+
+beforeEach(() => {
+    const localStorageMock = {
+        getItem: jest.fn(),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+        clear: jest.fn(),
+    };
+
+    Object.defineProperty(window, 'localStorage', {
+        value: localStorageMock,
+        writable: true,
+    });
+});
 
 it('renders component heading', async () => {
     getRoots.mockResolvedValue([]);
@@ -57,4 +71,32 @@ it('shows error if api call was failed', async () => {
     const errorNode = await screen.findByText('Error occurred');
 
     expect(errorNode).toBeInTheDocument();
+});
+
+it('picks tab from localStorage on load', async () => {
+    getRoots.mockResolvedValue({ rocket: '' });
+    getRoot.mockResolvedValue({});
+    renderWithRedux(<Home />);
+
+    await screen.findByText('Rocket');
+
+    expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+    expect(window.localStorage.getItem).toHaveBeenCalledWith(
+        'tab'
+    );
+});
+
+it('stores tab to localStorage on tab click', async () => {
+    getRoots.mockResolvedValue({ rocket: '' });
+    getRoot.mockResolvedValue({});
+    renderWithRedux(<Home />);
+
+    const fetchButton = await screen.findByText('Rocket');
+
+    fireEvent.click(fetchButton);
+
+    expect(window.localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+        'tab', JSON.stringify('rocket')
+    );
 });

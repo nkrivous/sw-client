@@ -5,6 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
+    "@testing-library/react-hooks": "^3.2.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "json-client": "^0.9.3",
@@ -12,6 +13,7 @@
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
+    "react-test-renderer": "^16.9.0",
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",

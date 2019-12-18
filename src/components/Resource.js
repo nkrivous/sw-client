@@ -15,7 +15,7 @@ const Resource = ({ active, name }) => {
     useEffect(() => {
         if (active && !resource)
             dispatch(fetchResource(name));
-    }, [active, dispatch]);
+    }, [active, resource, name, dispatch]);
 
     if (!resource || resource.isLoading)
         return <div>Loading...</div>;
